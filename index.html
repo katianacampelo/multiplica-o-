@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Multiplicação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff6b6b;
+        }
+        #game {
+            background: white;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #question {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        #answer {
+            padding: 8px;
+            font-size: 16px;
+            width: 100px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #score {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        #message {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>🌟 Jogo da Multiplicação 🌟</h1>
+        <p>Resolva as contas de 0 a 10. Digite "sair" para parar.</p>
+        
+        <div id="question"></div>
+        <input type="text" id="answer" placeholder="Sua resposta">
+        <button onclick="checkAnswer()">Responder</button>
+        
+        <div id="message"></div>
+        <div id="score">Pontuação: 0</div>
+    </div>
+
+    <script>
+        let pontos = 0;
+        let num1, num2, respostaCorreta;
+
+        // Inicia o jogo
+        function newQuestion() {
+            num1 = Math.floor(Math.random() * 11); // Número entre 0 e 10
+            num2 = Math.floor(Math.random() * 11);
+            respostaCorreta = num1 * num2;
+            
+            document.getElementById("question").textContent = `Quanto é ${num1} × ${num2}?`;
+            document.getElementById("answer").value = "";
+            document.getElementById("message").textContent = "";
+        }
+
+        // Verifica a resposta
+        function checkAnswer() {
+            const resposta = document.getElementById("answer").value.trim();
+            
+            if (resposta.toLowerCase() === "sair") {
+                alert(`Fim do jogo! Sua pontuação final: ${pontos} pontos! 🎉`);
+                return;
+            }
+
+            if (resposta === "") {
+                document.getElementById("message").textContent = "Digite uma resposta!";
+                return;
+            }
+
+            const respostaNum = parseInt(resposta);
+            
+            if (respostaNum === respostaCorreta) {
+                pontos++;
+                document.getElementById("score").textContent = `Pontuação: ${pontos}`;
+                document.getElementById("message").textContent = "✅ Correto!";
+                document.getElementById("message").style.color = "green";
+            } else {
+                document.getElementById("message").textContent = `❌ Errado! O certo era ${respostaCorreta}.`;
+                document.getElementById("message").style.color = "red";
+            }
+
+            // Próxima pergunta após 1 segundo
+            setTimeout(newQuestion, 1000);
+        }
+
+        // Começa o jogo
+        newQuestion();
+    </script>
+</body>
+</html>
